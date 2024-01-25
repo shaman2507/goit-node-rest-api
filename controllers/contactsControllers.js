@@ -1,5 +1,3 @@
-// import contactsService from "../services/contactsServices.js";
-
 const HttpError = require('../helpers/HttpError');
 const { listContacts, getContactById, removeContact, addContact, updateContact } = require('../services/contactsServices');
 const { validateContact, validateContactUpdate } = require('../helpers/validateBody');

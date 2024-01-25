@@ -26,6 +26,4 @@ const validateContactUpdate = Joi.object({
   phone: Joi.string(),
 });
 
-module.exports = { validateContact, validateContactUpdate };
-
-module.exports = { validateBody } ;
+module.exports = { validateContact, validateContactUpdate, validateBody };
