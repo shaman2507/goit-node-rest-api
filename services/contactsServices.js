@@ -47,19 +47,23 @@ async function addContact(name, email, phone) {
   return newContact;
 }
 
-async function updateContact(contactId, newData) {
-  const contacts = await listContacts();
-  const index = contacts.findIndex(contact => contact.id === contactId);
+async function updateContact(contactId, updatedFields) {
+  try {
+    const contacts = await listContacts();
+    const index = contacts.findIndex(contact => contact.id === contactId);
 
-  if (index === -1) {
+    if (index === -1) {
+      return null;
+    }
+
+    contacts[index] = { ...contacts[index], ...updatedFields };
+    
+    await fsPromises.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+    return contacts[index];
+  } catch (error) {
+    console.error(error);
     return null;
   }
-
-  const updatedContact = { ...contacts[index], ...newData };
-  contacts[index] = updatedContact;
-
-  await fsPromises.writeFile(contactsPath, JSON.stringify(contacts));
-  return updatedContact;
 }
 
 module.exports = { listContacts, getContactById, removeContact, addContact, updateContact };

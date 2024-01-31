@@ -1,4 +1,5 @@
 const { HttpError } = require('./HttpError');
+const Joi = require('joi');
 
 const validateBody = (schema) => {
   const func = (req, _, next) => {
@@ -11,8 +12,6 @@ const validateBody = (schema) => {
 
   return func;
 };
-
-const Joi = require('joi');
 
 const validateContact = Joi.object({
   name: Joi.string().required(),

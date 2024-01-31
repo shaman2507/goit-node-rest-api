@@ -55,9 +55,9 @@ const createContact = async (req, res, next) => {
 };
 
 const updateContactHandler = async (req, res, next) => {
-  const { id } = req.params;
   try {
     const { name, email, phone } = req.body;
+    const { id } = req.params;
 
     if (!name && !email && !phone) {
       throw new HttpError(400, 'Body must have at least one field');
