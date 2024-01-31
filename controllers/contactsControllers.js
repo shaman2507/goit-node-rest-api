@@ -68,7 +68,7 @@ const updateContactHandler = async (req, res, next) => {
       throw new HttpError(400, validationResult.error.message);
     }
 
-    const updatedContact = await updateContact(id, { name, email, phone });
+    const updatedContact = await updateContact(id, req.body);
     if (updatedContact) {
       res.status(200).json(updatedContact);
     } else {
