@@ -1,5 +1,5 @@
 const HttpError = require('../helpers/HttpError');
-const { listContacts, getContactById, removeContact, addContact, updateContact } = require('../services/contactsServices');
+const { listContacts, getContactById, removeContact, addContact, updateContact, updateStatusContact } = require('../services/contactsServices');
 const { validateContact, validateContactUpdate } = require('../helpers/validateBody');
 
 const getContacts = async (req, res, next) => {
@@ -79,4 +79,23 @@ const updateContactHandler = async (req, res, next) => {
   }
 };
 
-module.exports = { getContacts, getContact, deleteContact, createContact, updateContactHandler };
+ const updateStatusContactHandler = async (req, res) => {
+  try {
+    const { contactId } = req.params;
+    const { favorite } = req.body;
+
+    const updatedContact = await updateStatusContact(contactId, { favorite });
+
+    if (!updatedContact) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    return res.status(200).json(updatedContact);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports = { getContacts, getContact, deleteContact, createContact, updateContactHandler, updateStatusContactHandler };

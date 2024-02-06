@@ -5,6 +5,7 @@ const {
   deleteContact,
   createContact,
   updateContactHandler,
+  updateStatusContactHandler
 } = require('../controllers/contactsControllers.js');
 
 const contactsRouter = express.Router();
@@ -18,5 +19,7 @@ contactsRouter.delete("/:id", deleteContact);
 contactsRouter.post("/", createContact);
 
 contactsRouter.put("/:id", updateContactHandler);
+
+contactsRouter.patch("/favorite/:id", updateStatusContactHandler)
 
 module.exports = contactsRouter;
