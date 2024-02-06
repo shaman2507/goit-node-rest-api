@@ -20,6 +20,6 @@ contactsRouter.post("/", createContact);
 
 contactsRouter.put("/:id", updateContactHandler);
 
-contactsRouter.patch("/favorite/:id", updateStatusContactHandler);
+contactsRouter.patch("/:id/favorite", updateStatusContactHandler);
 
 module.exports = contactsRouter;
