@@ -82,9 +82,8 @@ const updateContactHandler = async (req, res, next) => {
  const updateStatusContactHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { favorite } = req.body;
 
-    const updatedContact = await updateStatusContact(id, { favorite }, { new: true });
+    const updatedContact = await updateStatusContact(id, req.body);
     
     if (!updatedContact) {
       return res.status(404).json({ message: "Not found" });
@@ -96,6 +95,6 @@ const updateContactHandler = async (req, res, next) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-console.log(updateStatusContactHandler)
+
 
 module.exports = { getContacts, getContact, deleteContact, createContact, updateContactHandler, updateStatusContactHandler };

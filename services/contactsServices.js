@@ -53,7 +53,7 @@ async function updateContact(contactId, updatedFields) {
 
 async function updateStatusContact(contactId, body) {
   try {
-    const updatedContact = await Contact.findByIdAndUpdate(contactId, { body }, { new: true });
+    const updatedContact = await Contact.findByIdAndUpdate(contactId, body, { new: true });
     return updatedContact;
   } catch (error) {
     console.error(error);
