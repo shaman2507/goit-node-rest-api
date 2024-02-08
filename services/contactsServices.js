@@ -54,7 +54,7 @@ async function updateContact(contactId, updatedFields) {
 async function updateStatusContact(contactId, body) {
   try {
     const updatedContact = await Contact.findByIdAndUpdate(contactId, body, { new: true });
-    return updatedContact;
+    return updatedContact || null;
   } catch (error) {
     console.error(error);
     return null;

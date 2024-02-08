@@ -25,4 +25,8 @@ const validateContactUpdate = Joi.object({
   phone: Joi.string(),
 });
 
-module.exports = { validateContact, validateContactUpdate, validateBody };
+const validateContactUpdateFavorite = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
+module.exports = { validateContact, validateContactUpdate, validateBody, validateContactUpdateFavorite };

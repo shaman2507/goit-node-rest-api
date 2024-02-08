@@ -1,6 +1,6 @@
 const HttpError = require('../helpers/HttpError');
 const { listContacts, getContactById, removeContact, addContact, updateContact, updateStatusContact } = require('../services/contactsServices');
-const { validateContact, validateContactUpdate } = require('../helpers/validateBody');
+const { validateContact, validateContactUpdate, validateContactUpdateFavorite } = require('../helpers/validateBody');
 
 const getContacts = async (req, res, next) => {
   try {
@@ -79,9 +79,15 @@ const updateContactHandler = async (req, res, next) => {
   }
 };
 
- const updateStatusContactHandler = async (req, res) => {
+const updateStatusContactHandler = async (req, res) => {
   try {
     const { id } = req.params;
+    const { favorite } = req.body;
+
+    const validationResult = validateContactUpdateFavorite.validate({ favorite });
+    if (validationResult.error) {
+      throw new HttpError(400, validationResult.error.message);
+    }
 
     const updatedContact = await updateStatusContact(id, req.body);
     
