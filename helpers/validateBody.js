@@ -29,4 +29,9 @@ const validateContactUpdateFavorite = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-module.exports = { validateContact, validateContactUpdate, validateBody, validateContactUpdateFavorite };
+const validateRegistration = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
+
+module.exports = { validateContact, validateContactUpdate, validateBody, validateContactUpdateFavorite, validateRegistration };
