@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
     password: {
@@ -16,8 +16,8 @@ const userSchema = new Schema({
         default: "starter"
     },
     token: String
-})
+});
 
-const User = model('user', userSchema)
+const User = model('user', userSchema);
 
-module.exports = User
+module.exports = User;
