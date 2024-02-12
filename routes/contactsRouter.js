@@ -18,10 +18,6 @@ contactsRouter.get("/:id", getContact);
 
 contactsRouter.delete("/:id", deleteContact);
 
-
-
-// contactsRouter.post("/login", login);
-
 contactsRouter.post("/", createContact);
 
 contactsRouter.put("/:id", updateContactHandler);
