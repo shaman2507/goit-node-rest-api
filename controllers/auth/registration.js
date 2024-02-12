@@ -30,10 +30,10 @@ const registration = async (req, res, next) => {
             }
         })
     } catch (error) {
-        console.log(error.code)
-        if (error.code === 11000) {
-            throw HttpError(409, 'Email in use')
-        }
+        console.log(error.message)
+        if (error.message.includes('E11000')) {
+            throw new HttpError(409, 'Email in use')
+        } 
         throw error
     }
 };
