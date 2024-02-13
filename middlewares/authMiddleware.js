@@ -1,31 +1,22 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 const { JWT_SECRET } = process.env;
+const controllerWrapper = require('../helpers/controllerWrappes')
 
 const authMiddleware = async (req, res, next) => {
-  // const authHeader = req.headers.authorization || '';
-  // const [type, token] = authHeader.split(' ')
+  const authHeader = req.headers.authorization || '';
+  const [type, token] = authHeader.split(' ')
 
-  const token = req.headers.authorization && req.headers.authorization.split(' ');
+  console.log('authMiddleware > authHeader-', authHeader)
 
-  // console.log('authMiddleware > authHeader-', authHeader)
-  console.log(token)
+
+  if (type !== "Bearer") {
+    return res.status(401).json({ message: "Token is not valid" });
+  }
 
   if (!token) {
     return res.status(401).json({ message: "Not authorized" });
   }
-
-  const decodedToken = jwt.verify(token, JWT_SECRET);
-
-  console.log(decodedToken)
-
-  // if (type !== "Bearer") {
-  //   return res.status(401).json({ message: "Token is not valid" });
-  // }
-
-  // if (!token) {
-  //   return res.status(401).json({ message: "Not authorized" });
-  // }
 
   try {
     const { id } = jwt.verify(token, JWT_SECRET);
@@ -40,4 +31,4 @@ const authMiddleware = async (req, res, next) => {
 
 };
 
-module.exports = authMiddleware;
+module.exports = { authMiddleware: controllerWrapper(authMiddleware) }
