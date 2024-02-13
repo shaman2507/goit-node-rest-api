@@ -10,12 +10,17 @@ const registration = async (req, res, next) => {
     
 
     if (!email || !password) {
-        return res.status(400).json({ message: "Wrong email or password" });
+        return res.status(400).json({ message: "Bad Request" });
     }
 
     const validationResult = validateRegistration.validate({ email, password });
     if (validationResult.error) {
-      throw new HttpError(400, validationResult.error.message);
+      return res.status(400).json({ message: validationResult.error.message });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return res.status(409).json({ message: "Email in use" });
     }
 
     try {
@@ -30,11 +35,9 @@ const registration = async (req, res, next) => {
             }
         })
     } catch (error) {
-        console.log(error.message)
-        if (error.message.includes('E11000')) {
-            throw new HttpError(409, 'Email in use')
-        } 
-        throw error
+        console.log(error)
+        res.status(500).json({ message: "Internal Server Error" })
+        
     }
 };
 

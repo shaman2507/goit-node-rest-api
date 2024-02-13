@@ -8,8 +8,6 @@ const {
   updateStatusContactHandler
 } = require('../controllers/contactsControllers.js');
 
-const login = require('../controllers/auth/login.js');
-
 const contactsRouter = express.Router();
 
 contactsRouter.get("/", getContacts);
