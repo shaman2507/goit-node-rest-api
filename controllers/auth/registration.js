@@ -1,5 +1,4 @@
 const User = require('../../models/users');
-const HttpError = require('../../helpers/HttpError');
 const bcrypt = require('bcrypt');
 const { validateRegistration } = require('../../helpers/validateBody');
 

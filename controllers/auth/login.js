@@ -21,7 +21,7 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        throw new HttpError(401, ' Email or password is wrong')
+        throw new HttpError(401, 'Email or password is wrong')
     }
 
     try {
