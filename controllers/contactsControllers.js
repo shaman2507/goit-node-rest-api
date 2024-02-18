@@ -4,7 +4,8 @@ const { validateContact, validateContactUpdate, validateContactUpdateFavorite } 
 
 const getContacts = async (req, res, next) => {
   try {
-    const contacts = await listContacts();
+    const owner = req.user ? req.user._id : null;
+    const contacts = await listContacts(owner);
     res.status(200).json(contacts);
   } catch (error) {
     next(error);
@@ -13,8 +14,9 @@ const getContacts = async (req, res, next) => {
 
 const getContact = async (req, res, next) => {
   const { id } = req.params;
+  const owner = req.user ? req.user._id : null;
   try {
-    const contact = await getContactById(id);
+    const contact = await getContactById(id, owner);
     if (contact) {
       res.status(200).json(contact);
     } else {
@@ -27,8 +29,9 @@ const getContact = async (req, res, next) => {
 
 const deleteContact = async (req, res, next) => {
   const { id } = req.params;
+  const owner = req.user ? req.user._id : null;
   try {
-    const deletedContact = await removeContact(id);
+    const deletedContact = await removeContact(id, owner);
     if (deletedContact) {
       res.status(200).json(deletedContact);
     } else {
@@ -42,12 +45,19 @@ const deleteContact = async (req, res, next) => {
 const createContact = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
+    const owner = req.user ? req.user._id : null;
+
     const validationResult = validateContact.validate({ name, email, phone });
     if (validationResult.error) {
       throw new HttpError(400, validationResult.error.message);
     }
 
-    const newContact = await addContact(name, email, phone);
+    const newContact = await addContact(
+      name,
+      email,
+      phone,
+      owner
+    );
     res.status(201).json(newContact);
   } catch (error) {
     next(error);
@@ -58,6 +68,7 @@ const updateContactHandler = async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
     const { id } = req.params;
+    const owner = req.user ? req.user._id : null;
 
     if (!name && !email && !phone) {
       throw new HttpError(400, 'Body must have at least one field');
@@ -68,7 +79,7 @@ const updateContactHandler = async (req, res, next) => {
       throw new HttpError(400, validationResult.error.message);
     }
 
-    const updatedContact = await updateContact(id, req.body);
+    const updatedContact = await updateContact(id, req.body, owner);
     if (updatedContact) {
       res.status(200).json(updatedContact);
     } else {
@@ -83,13 +94,14 @@ const updateStatusContactHandler = async (req, res) => {
   try {
     const { id } = req.params;
     const { favorite } = req.body;
+    const owner = req.user ? req.user._id : null;
 
     const validationResult = validateContactUpdateFavorite.validate({ favorite });
     if (validationResult.error) {
       throw new HttpError(400, validationResult.error.message);
     }
 
-    const updatedContact = await updateStatusContact(id, req.body);
+    const updatedContact = await updateStatusContact(id, req.body, owner);
     
     if (!updatedContact) {
       return res.status(404).json({ message: "Not found" });

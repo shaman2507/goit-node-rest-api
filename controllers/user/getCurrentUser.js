@@ -1,6 +1,6 @@
 const HttpError = require('../../helpers/HttpError');
 
-const getCurrentUser = (req, res, next) => {
+const getCurrentUser = async (req, res, next) => {
     if (!req.user) {
         throw new HttpError(401, 'Not authorized');
     }

@@ -7,19 +7,20 @@ const {
   updateContactHandler,
   updateStatusContactHandler
 } = require('../controllers/contactsControllers.js');
+const { authMiddleware } = require('../middlewares/authMiddleware');
 
 const contactsRouter = express.Router();
 
-contactsRouter.get("/", getContacts);
+contactsRouter.get("/", authMiddleware, getContacts);
 
-contactsRouter.get("/:id", getContact);
+contactsRouter.get("/:id", authMiddleware, getContact);
 
-contactsRouter.delete("/:id", deleteContact);
+contactsRouter.delete("/:id", authMiddleware, deleteContact);
 
-contactsRouter.post("/", createContact);
+contactsRouter.post("/", authMiddleware, createContact);
 
-contactsRouter.put("/:id", updateContactHandler);
+contactsRouter.put("/:id", authMiddleware, updateContactHandler);
 
-contactsRouter.patch("/:id/favorite", updateStatusContactHandler);
+contactsRouter.patch("/:id/favorite", authMiddleware, updateStatusContactHandler);
 
 module.exports = contactsRouter;
